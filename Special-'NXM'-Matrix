@@ -23,3 +23,8 @@ A(1,:) = 1:m
 A(:,1) = 1:n
 
 end
+
+
+% Calls to function
+n = 4; m = 5;
+specialMatrix(n,m)
