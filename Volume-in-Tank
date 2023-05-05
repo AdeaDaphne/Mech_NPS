@@ -1,0 +1,42 @@
+%Solving for a water tower which is a cylinder attached to the base portion of an upside down cone, height given as 20 meters
+
+% Specify the variables needed to solve this problem, all variables are given 
+%diametercyl, radiuscyl, heightcyl are used for the cylinder
+%diametercone, radiuscone, radcone, etc are used for the cone 
+diametercyl = 25
+radiuscyl = diametercyl/2
+heightcyl = 19
+
+diametercone = 46
+radiuscone = 23
+radcone = radiuscyl
+heightcone = 14
+heightcone20 = 1
+
+% Specify the height of the water
+h = 20
+
+% Computing volume of cylinder and cone
+vcyl = pi*radiuscyl^2*heightcyl
+vcone = (1/3*pi*1*radiuscone)*.07
+v = vcone + vcyl
+
+% Specifications, formatting, calling to function
+formatSpec = 'Volume of the cylinder is %4.2f and the volume of the cone is %8.3f (in meters cubed)';
+fprintf(formatSpec,vcyl,vcone)
+
+function [vcyl, vcone] = volumeofweirdassobject(h)
+
+% Given parameters 
+diametercyl = 25
+radiuscyl = diametercyl/2
+diametercone = 46
+radiuscone = diametercone/2
+prompt = ('What is the height')
+(h) == input(prompt)
+if h <= 19
+    vcyl = pi*radiuscyl^2*(h)
+else h > 19
+    vcone = pi*radiuscone^2*((h)/3)  
+end
+end
