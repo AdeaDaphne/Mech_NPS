@@ -1,0 +1,81 @@
+% Matlab function that estimates the root of a given function
+
+% False position as an algorithm; 
+%pick a position between the root, where xr changes signs
+%the sign less than xr is the lower bound
+%the sign greater is the upper bound
+%plug into false position function; 
+%which is [xu*f(xl) - xl*f(xu)] / [f(xl) - f(xu)]
+%if f(xl)f(xr) < 0, then the root is between xl and xr, xl = xl and xu = xr
+%if f(xl)f(xr) > 0, then the root is between xr and xu, xl = xr and xu = xu
+%if f(xl)f(xr) = 0, then the root is xr. xr = root
+% Find errors as the algorithm runs; 
+% ea = absval[(xr{new} - xr{old}] / (xr{new})] * 100
+% ^ uses previous iteration xr as {old} and current iteration xr as {new}
+
+% Inputs
+% func - the function being evaluated
+% xl the lower guess
+% xu the upper guess
+% es - the desired relative error (should default to 0.0001%)
+% maxit - the maximum number of iterations to use (should default to 200)
+% varargin, . . . - any additional parameters used by the function
+
+% Outputs
+% root - the estimated root location
+% fx - the function evaluated at the root location
+% ea - the approximate relative error (%)
+% iter - how many iterations were performed
+
+function [root, fx, ea, iter] = falsePosition(func, xl, xu, es, maxit, varargin)
+
+% Setting defaults for maxit and relatives error, and errors
+if nargin < 5
+  maxit = 200
+end
+
+if nargin < 4
+    es = .0001
+end
+
+if nargin < 2
+    error ('Not enough inputs silly goose')
+end
+
+% Starting parameters
+roots = 100
+iters = -1
+esactual = 100
+
+
+% While loop for false position 
+while iters ~= maxit & esactual > es
+ xr = (xu.*func(xl) - xl.*func(xu))./(func(xl) - func(xu));
+ if func(xl).*func(xr) > 0
+     xl = xr;
+ 
+ elseif func(xl).*func(xr) < 0
+     xu = xr;
+
+ else 
+     root = xr;
+end
+
+     iters = iters + 1;
+     
+     if xr ~= 0
+     esactual = abs((xr - roots) / xr)
+     else esactual = es
+     end
+     
+     
+     roots = xr;
+end
+
+% Set outputs
+root = roots
+fx = func(root);
+ea = esactual * 100
+iter = iters
+
+end
