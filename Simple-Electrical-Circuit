@@ -1,12 +1,12 @@
-%Computes the charge of a capacitor q(t) as a function of time. 
+% omputes the charge of a capacitor q(t) as a function of time. 
 
-%Function parameters
+% Function parameters
 q0 = 10;
 R = 60;
 L = 9;
 C = 0.00005;
 
-%Creates an array of 100 points between 0 and .8
+% Creates an array of 100 points between 0 and .8
 t = linspace(0,.8)
 
 % Calculate the values of q
