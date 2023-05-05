@@ -1,0 +1,25 @@
+% A function that returns an n x m matrix with specific values
+% The value of each element in the first row is the number of the column.
+% The value of each element in the first column is the number of the row.
+% The rest of the elements each has a value equal to the sum of the element above it and element to the left.
+
+function [A] = specialMatrix(n,m)
+
+% Prevents too many inputs, prechecks
+if nargin >2 
+    error ('Too many inputs')
+end 
+
+if nargin <2
+    error ('Not enough inputs')
+end 
+
+% Sets up the matrix in accordance to the provided values
+A = ones(n,m)
+
+% Counts the amount in the columns/rows and fills them in
+% Essentially saying 'Hey this is how many I have in the row and column.', feels a touch self-contradictory in a weird way.
+A(1,:) = 1:m
+A(:,1) = 1:n
+
+end
