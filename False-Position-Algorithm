@@ -79,3 +79,11 @@ ea = esactual * 100
 iter = iters
 
 end
+
+% Create a test function to test falsePosition function. 
+testFunc = @(x) x.^3; % the root for this is pretty clearly x=0
+
+% Test the function, using default value for es
+x_left = -1;
+x_right = 1;
+[root, fx, ea, iter] = falsePosition(testFunc, x_left, x_right)
