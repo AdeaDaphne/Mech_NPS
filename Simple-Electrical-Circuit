@@ -1,0 +1,46 @@
+%Computes the charge of a capacitor q(t) as a function of time. 
+
+%Function parameters
+q0 = 10;
+R = 60;
+L = 9;
+C = 0.00005;
+
+%Creates an array of 100 points between 0 and .8
+t = linspace(0,.8)
+
+% Calculate the values of q
+evalue = 2.71828.^((-1*R.*t)./(2*L))
+a = (1/(L*C))
+b = (R/(2*L))^2
+sqrtvalue = sqrt(a - b)
+cosvalue = cos(sqrtvalue.*t)
+q = q0.*evalue.*cosvalue
+
+% Plot q vs t
+
+plot (q,t)
+xlabel ('Q values')
+ylabel ('T values')
+
+subplot (2,1,1)
+title 'Q and T Values'
+
+% Make the capacitor 10x bigger
+C10 = C*10
+a2 = (1/(L*C10))
+sqrtvalue2 = sqrt(a2 - b)
+cosvalue2 = cos(sqrtvalue2.*t)
+q2 = q0.*evalue.*cosvalue2
+
+% Plot q2 vs t
+
+plot (q2,t)
+hold on
+axis auto
+hold off
+xlabel ('Q2 values')
+ylabel ('T values')
+
+subplot (2,1,2)
+title 'Q2 and T Values'
