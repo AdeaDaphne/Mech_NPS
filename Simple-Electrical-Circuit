@@ -18,7 +18,6 @@ cosvalue = cos(sqrtvalue.*t)
 q = q0.*evalue.*cosvalue
 
 % Plot q vs t
-
 plot (q,t)
 xlabel ('Q values')
 ylabel ('T values')
@@ -34,7 +33,6 @@ cosvalue2 = cos(sqrtvalue2.*t)
 q2 = q0.*evalue.*cosvalue2
 
 % Plot q2 vs t
-
 plot (q2,t)
 hold on
 axis auto
