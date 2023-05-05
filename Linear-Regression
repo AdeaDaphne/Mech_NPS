@@ -1,0 +1,94 @@
+% Filter outliers 
+% Compute the linear regression onfiltered data set.
+% Compute the  value from filtered data and linear regression function.
+
+function [fX, fY, slope, intercept, Rsquared] = linearRegression(x,y)
+% LinearRegression Computes the linear regression of a data set
+%   Compute the linear regression based on inputs:
+%     1. x: x-values for our data set
+%     2. y: y-values for our data set
+%
+%   Outputs:
+%     1. fX: x-values with outliers removed
+%     2. fY: y-values with outliers removed
+%     3. slope: slope from the linear regression y=mx+b
+%     4. intercept: intercept from the linear regression y=mx+b
+%     5. Rsquared: R^2, a.k.a. coefficient of determination
+
+% Error
+if length(x) ~= length(y)
+    error ('Matrices need to have equal value')
+end
+
+% Sorted Statements
+[sortedY, sortOrder] = sort(y)
+sortedX = x(sortOrder)
+
+% Indices
+n = length(x)
+Q1pre = floor((n+1)/(4))
+Q1 = sortedY(Q1pre)
+Q3pre = floor((3*n+1)/(4))
+Q3 = sortedY(Q3pre)
+IQR = Q3 - Q1
+lowThresh = Q1 - (1.5*IQR)
+highThresh = Q3 + (1.5*IQR)
+
+% Sorting
+x2 = x
+y2 = y
+
+x = []
+y = []
+
+for i = 1:n
+    if y2(i) >= lowThresh && y2(i) <= highThresh
+        y = [y,y2(i)]
+        x = [x,x2(i)]
+    end
+end
+
+[sortedY, sortOrder] = sort(y)
+sortedX = x(sortOrder)
+
+fX = sortedX
+fY = sortedY
+n = length(x)
+
+% Means/Averages/Sums
+meanY = mean(y)
+meanX = mean(x)
+sumY = sum(y)
+sumX = sum(x)
+sumXY = sum(x.*y)
+sumXsq = sum(x.^2)
+
+% Intercept and Slope
+slope = ((n*(sumXY) - sumX*sumY)/(n*sumXsq - ((sumX)^2)))
+intercept = meanY - slope*meanX
+
+% Rsquared
+SSTot = sum((y - meanY).^2)
+SSRes = sum((y - (x.*slope + intercept)).^2)
+Rsquared = 1 - (SSRes/SSTot)
+
+end
+
+x = [1 2 3 4 5 6]
+y = [1 2 1.3 3.75 2.5 100]
+% Should filter out x=6,y=100
+[fX, fY, slope, intercept, Rsquared] = linearRegression(x,y)
+
+% Actual values 
+xAnswer = [1 3 2 5 4]
+yAnswer = [1 1.3 2 2.5 3.75]
+slopeAnswer = 0.4750
+interceptAnswer = 0.6850
+RsquaredAnswer = 0.4758
+
+% Will show a 1 if result is within 1.e-12 of the answer.
+fprintf("fX is close to xAnswer? %d\n", abs(fX-xAnswer)<1.e-12) % Since fX is an array, will print one line per element.
+fprintf("fY is close to yAnswer? %d\n", abs(fY-yAnswer)<1.e-12) % Since fY is an array, will print one line per element.
+fprintf("slope is close to slopeAnswer? %d\n", abs(slope-slopeAnswer)<1.e-12)
+fprintf("intercept is close to interceptAnswer? %d\n", abs(intercept-interceptAnswer)<1.e-12)
+fprintf("Rsquared is close to RsquaredAnswer? %d\n", abs(Rsquared-RsquaredAnswer)<1.e-12)
