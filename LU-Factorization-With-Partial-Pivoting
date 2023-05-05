@@ -1,0 +1,51 @@
+function [L, U, P] = luFactor(A)
+% luFactor(A)
+%	LU decomposition with pivotiing
+% inputs:
+%	A = coefficient matrix
+% outputs:
+%	L = lower triangular matrix
+%	U = upper triangular matrix
+%       P = the permutation matrix
+
+%Ensure A is a square matrix
+[q,w] = size(A)
+if q ~= w
+    error('Not a square matrix')
+end
+
+[q,w] = size(A); L = eye(w); P = eye(w); U = A;
+    for m = 1:(q - 1)
+        pivot = max(abs(U(m:q,m)))
+        for n = m:q
+            if (abs(U(n,m)) == pivot)
+            ind = n
+            break;
+        end
+    end
+    U([m, ind], m:q) = U([ind, m], m:q)
+    L([m, ind], 1:(m-1)) = L([ind,m], 1:(m-1))
+    P([m, ind], :) = P([ind,m],:)
+    for n = m+1:q
+        L(n,m) = U(n,m)/U(m,m)
+        U(n,m:q) = U(n,m:q) - L(n,m)*U(m,m:q)
+    end
+
+
+end
+
+% Solve the system of equations in the form A*x = b
+%   10*x1 + 2*x2 - x3 = 27
+%   -3*x1 - 6*x2 + 2*x3 = -61.5
+%   x1 + x2 + 5*x3 = -21.5
+% Set up A for the given system
+A = [10, 2, -1; 
+    -3, -6, 2;
+    1, 1, 5];
+% Set up b
+b = [27; -61.5; -21.5];
+% Solve for x
+x = A\b;
+
+% Test function
+[L, U, P] = luFactor(A)
